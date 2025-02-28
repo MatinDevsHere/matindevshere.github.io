@@ -22,6 +22,9 @@
 @utility content {
   body {
     background-color: black;
+  }
+
+  & * {
     color: white;
   }
 
