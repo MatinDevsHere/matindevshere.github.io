@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -27,23 +26,23 @@ const (
 
 func copyStaticFiles() error {
 	// Copy profanity.js
-	jsContent, err := ioutil.ReadFile("build/profanity.js")
+	jsContent, err := os.ReadFile("build/profanity.js")
 	if err != nil {
 		return fmt.Errorf("failed to read profanity.js: %v", err)
 	}
 
-	err = ioutil.WriteFile(filepath.Join(buildDir, "profanity.js"), jsContent, 0644)
+	err = os.WriteFile(filepath.Join(buildDir, "profanity.js"), jsContent, 0644)
 	if err != nil {
 		return fmt.Errorf("failed to copy profanity.js: %v", err)
 	}
 
 	// Copy styles.css
-	cssContent, err := ioutil.ReadFile("build/styles.css")
+	cssContent, err := os.ReadFile("build/styles.css")
 	if err != nil {
 		return fmt.Errorf("failed to read styles.css: %v", err)
 	}
 
-	err = ioutil.WriteFile(filepath.Join(buildDir, "styles.css"), cssContent, 0644)
+	err = os.WriteFile(filepath.Join(buildDir, "styles.css"), cssContent, 0644)
 	if err != nil {
 		return fmt.Errorf("failed to copy styles.css: %v", err)
 	}
@@ -63,7 +62,7 @@ func main() {
 	}
 
 	// Read all markdown files
-	files, err := ioutil.ReadDir(postsDir)
+	files, err := os.ReadDir(postsDir)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -123,7 +122,7 @@ func processProfanityContent(content string) template.HTML {
 }
 
 func processPost(filename string) (Post, error) {
-	content, err := ioutil.ReadFile(filepath.Join(postsDir, filename))
+	content, err := os.ReadFile(filepath.Join(postsDir, filename))
 	if err != nil {
 		return Post{}, err
 	}
