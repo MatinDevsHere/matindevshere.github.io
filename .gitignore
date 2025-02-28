@@ -1,8 +1,7 @@
-# Ignore all files in the build directory
-/build/*
-
-# Do not ignore JavaScript files
-!/build/**/*.js
+# Ignore all files in the build directory /build/* # Do not ignore JavaScript files !/build/**/*.js
 
 # Do not ignore CSS files
 !/build/**/*.css
+
+# Ignore styles.css specifically
+/build/styles.css
