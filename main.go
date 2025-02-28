@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/yuin/goldmark"
 	"gopkg.in/yaml.v2"
 )
 
@@ -121,6 +122,15 @@ func processProfanityContent(content string) template.HTML {
 	return template.HTML(result.String())
 }
 
+func processMarkdown(content []byte) (template.HTML, error) {
+	md := goldmark.New()
+	var buf bytes.Buffer
+	if err := md.Convert(content, &buf); err != nil {
+		return "", err
+	}
+	return template.HTML(buf.String()), nil
+}
+
 func processPost(filename string) (Post, error) {
 	content, err := os.ReadFile(filepath.Join(postsDir, filename))
 	if err != nil {
@@ -141,8 +151,14 @@ func processPost(filename string) (Post, error) {
 		return Post{}, err
 	}
 
-	// Process content including profanity handling
-	post.Content = processProfanityContent(string(bytes.TrimSpace(parts[2])))
+	// First convert markdown to HTML
+	htmlContent, err := processMarkdown(bytes.TrimSpace(parts[2]))
+	if err != nil {
+		return Post{}, fmt.Errorf("failed to parse markdown: %v", err)
+	}
+
+	// Then process profanity in the HTML content
+	post.Content = processProfanityContent(string(htmlContent))
 
 	// Set permalink from filename without .html
 	post.Permalink = strings.TrimSuffix(filename, ".md")
