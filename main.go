@@ -158,8 +158,14 @@ func generateHTML(post Post) error {
 		return err
 	}
 
-	// Create output file
-	outPath := filepath.Join(buildDir, post.Permalink)
+	// Create directory for the post
+	postDir := filepath.Join(buildDir, post.Permalink)
+	if err := os.MkdirAll(postDir, 0755); err != nil {
+		return err
+	}
+
+	// Create index.html inside the post directory
+	outPath := filepath.Join(postDir, "index.html")
 	f, err := os.Create(outPath)
 	if err != nil {
 		return err
