@@ -8,10 +8,10 @@
     <script src="/profanity.js"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex flex-row items-center justify-center">
     <button id="profanityToggle" onclick="toggleProfanity()">Enable Profanity</button>
     <div class="max-w-2xl mx-auto">
-        <h1>{{.Frontmatter.title}}</h1>
+        <h1 class="text-4xl font-black">{{.Frontmatter.title}}</h1>
         {{if .Frontmatter.description}}<p>{{.Frontmatter.description}}</p>{{end}}
         <div>
             {{if .Frontmatter.date}}<span>{{.Frontmatter.date}}</span>{{end}}
