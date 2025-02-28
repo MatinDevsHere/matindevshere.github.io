@@ -1,7 +1,7 @@
 ---
 title: "10 Days to Make, 30 Years to Remake"
 date: 2025-02-28
-lastmod: 2025-02-28
+lastmod: 2025-02-29
 description: "This has to be shown below the title"
 category: "JS"
 ---
