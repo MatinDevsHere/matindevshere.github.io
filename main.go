@@ -15,7 +15,7 @@ import (
 
 type Post struct {
 	Frontmatter map[string]interface{} `yaml:",inline"`
-	Content     string
+	Content     template.HTML
 	Permalink   string
 }
 
@@ -28,20 +28,24 @@ const (
 func copyStaticFiles() error {
 	// Copy profanity.js
 	jsContent, err := ioutil.ReadFile("build/profanity.js")
-	if err == nil {
-		err = ioutil.WriteFile(filepath.Join(buildDir, "profanity.js"), jsContent, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to copy profanity.js: %v", err)
-		}
+	if err != nil {
+		return fmt.Errorf("failed to read profanity.js: %v", err)
+	}
+
+	err = ioutil.WriteFile(filepath.Join(buildDir, "profanity.js"), jsContent, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to copy profanity.js: %v", err)
 	}
 
 	// Copy styles.css
 	cssContent, err := ioutil.ReadFile("build/styles.css")
-	if err == nil {
-		err = ioutil.WriteFile(filepath.Join(buildDir, "styles.css"), cssContent, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to copy styles.css: %v", err)
-		}
+	if err != nil {
+		return fmt.Errorf("failed to read styles.css: %v", err)
+	}
+
+	err = ioutil.WriteFile(filepath.Join(buildDir, "styles.css"), cssContent, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to copy styles.css: %v", err)
 	}
 
 	return nil
@@ -89,7 +93,7 @@ func main() {
 	}
 }
 
-func processProfanityContent(content string) string {
+func processProfanityContent(content string) template.HTML {
 	// Find all instances of ||text1||text2|| pattern
 	parts := strings.Split(content, "||")
 	var result strings.Builder
@@ -115,7 +119,7 @@ func processProfanityContent(content string) string {
 		}
 	}
 
-	return result.String()
+	return template.HTML(result.String())
 }
 
 func processPost(filename string) (Post, error) {
@@ -155,8 +159,8 @@ func generateHTML(post Post) error {
 <head>
     <meta charset="UTF-8">
     <title>{{.Frontmatter.title}}</title>
-    <link rel="stylesheet" href="/styles.css">
-    <script src="/profanity.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="profanity.js"></script>
 </head>
 <body>
     <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
@@ -166,7 +170,7 @@ func generateHTML(post Post) error {
         <div class="content">
             {{.Content}}
         </div>
-        <p><a href="/">Back to Home</a></p>
+        <p><a href="index.html">Back to Home</a></p>
     </div>
 </body>
 </html>`
@@ -195,8 +199,8 @@ func generateIndex(posts []Post) error {
 <head>
     <meta charset="UTF-8">
     <title>Blog</title>
-    <link rel="stylesheet" href="/styles.css">
-    <script src="/profanity.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="profanity.js"></script>
 </head>
 <body>
     <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
@@ -205,7 +209,7 @@ func generateIndex(posts []Post) error {
         <ul>
             {{range .}}
             <li>
-                <a href="/{{.Permalink}}.html">{{.Frontmatter.title}}</a>
+                <a href="{{.Permalink}}.html">{{.Frontmatter.title}}</a>
                 {{if .Frontmatter.date}} - {{.Frontmatter.date}}{{end}}
             </li>
             {{end}}
