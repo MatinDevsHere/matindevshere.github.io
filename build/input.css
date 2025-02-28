@@ -24,6 +24,10 @@
     background-color: black;
   }
 
+  body>* {
+    color: white;
+  }
+
   & h1 {
     @apply text-4xl font-bold mt-6 mb-2.5;
   }
