@@ -10,7 +10,7 @@ function toggleProfanity() {
     localStorage.setItem('profanityEnabled', newState);
 
     // Update button text
-    toggleButton.textContent = newState ? 'Enable Safe Mode' : 'Enable Adult Content';
+    toggleButton.textContent = newState ? 'Disable Profanity' : 'Enable Profanity';
 
     // Toggle visibility
     nsfwElements.forEach(el => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('profanityToggle');
 
     // Set initial button text
-    toggleButton.textContent = profanityEnabled ? 'Enable Safe Mode' : 'Enable Adult Content';
+    toggleButton.textContent = profanityEnabled ? 'Disable Profanity' : 'Enable Profanity';
 
     // Set initial visibility
     nsfwElements.forEach(el => {
