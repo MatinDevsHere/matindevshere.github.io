@@ -9,6 +9,8 @@ category: "JS"
 > Roses are red, Violets are blue, How React's working, you ('ll probably) have no clue
 > - Me
 
+## A sample title
+
 To my favorite screen readers, Prime and Theo <3 (sorted alphabetically)
 
 **Programmer Check:** Please verify that you are a legit programmer by passing my self-invented, 100% guaranteed. Change your browser to **Microsoft Edge Windows** without buying a new PC. Why Edge on Windows, you ask? Because I don't have the mental capacity to manually change my UA each time I wanna open my own article.
