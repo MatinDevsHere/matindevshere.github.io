@@ -23,8 +23,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Tailwind CSS
+        run: npm install -g tailwindcss
+
       - name: Build Tailwind CSS
-        run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --minify
+        run: tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --minify
 
       - name: Set up Go
         uses: actions/setup-go@v4
