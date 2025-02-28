@@ -29,7 +29,6 @@ jobs:
           go mod verify
 
       - name: Setup Tailwind CSS
-      # curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-linux-x64
         run: |
           curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/latest/tailwindcss-linux-x64
           chmod +x tailwindcss-linux-x64
