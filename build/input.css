@@ -9,6 +9,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -18,21 +19,25 @@
   }
 }
 
+body {
+  background-color: black;
+}
+
 @utility content {
   & h1 {
-    @apply text-4xl font-bold mt-6 mb-4;
+    @apply text-4xl font-bold mt-6 mb-2.5;
   }
 
   & h2 {
-    @apply text-3xl font-bold mt-5 mb-3;
+    @apply text-3xl font-bold mt-5 mb-2.5;
   }
 
   & h3 {
-    @apply text-2xl font-bold mt-4 mb-2;
+    @apply text-2xl font-bold mt-4 mb-2.5;
   }
 
   & h4 {
-    @apply text-xl font-bold mt-3 mb-2;
+    @apply text-xl font-bold mt-3 mb-2.5;
   }
 
   & h5 {
@@ -44,7 +49,7 @@
   }
 
   & p {
-    @apply my-4;
+    @apply my-4 text-justify;
   }
 
   & ul {
@@ -56,7 +61,7 @@
   }
 
   & a {
-    @apply text-blue-600 hover:text-blue-800 underline;
+    @apply text-blue-400 underline;
   }
 
   & blockquote {

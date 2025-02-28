@@ -3,13 +3,10 @@ title: "10 Days to Make, 30 Years to Remake"
 date: 2025-02-28
 lastmod: 2025-02-29
 description: "This has to be shown below the title"
-category: "JS"
 ---
 
 > Roses are red, Violets are blue, How React's working, you ('ll probably) have no clue
 > - Me
-
-## A sample title
 
 To my favorite screen readers, Prime and Theo <3 (sorted alphabetically)
 
