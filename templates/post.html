@@ -9,10 +9,10 @@
 </head>
 
 <body>
-    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
-    <div class="container">
-        <h1>{{.Frontmatter.title}}</h1>
-        {{if .Frontmatter.description}}<p class="description">{{.Frontmatter.description}}</p>{{end}}
+    <button id="profanityToggle" onclick="toggleProfanity()">Enable Profanity</button>
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold">{{.Frontmatter.title}}</h1>
+        {{if .Frontmatter.description}}<p class="text-gray-600">{{.Frontmatter.description}}</p>{{end}}
         <div class="meta">
             {{if .Frontmatter.date}}<span class="date">{{.Frontmatter.date}}</span>{{end}}
             {{if and .Frontmatter.lastmod (ne .Frontmatter.lastmod .Frontmatter.date)}}
