@@ -23,16 +23,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Install Node.js dependencies
-        run: pnpm install
-
       - name: Build Tailwind CSS
-        run: pnpm build:css
+        run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --minify
 
       - name: Set up Go
         uses: actions/setup-go@v4
