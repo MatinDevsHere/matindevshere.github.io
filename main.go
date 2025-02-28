@@ -25,10 +25,37 @@ const (
 	delimiter = "---"
 )
 
+func copyStaticFiles() error {
+	// Copy profanity.js
+	jsContent, err := ioutil.ReadFile("build/profanity.js")
+	if err == nil {
+		err = ioutil.WriteFile(filepath.Join(buildDir, "profanity.js"), jsContent, 0644)
+		if err != nil {
+			return fmt.Errorf("failed to copy profanity.js: %v", err)
+		}
+	}
+
+	// Copy styles.css
+	cssContent, err := ioutil.ReadFile("build/styles.css")
+	if err == nil {
+		err = ioutil.WriteFile(filepath.Join(buildDir, "styles.css"), cssContent, 0644)
+		if err != nil {
+			return fmt.Errorf("failed to copy styles.css: %v", err)
+		}
+	}
+
+	return nil
+}
+
 func main() {
 	// Create build directory if it doesn't exist
 	if err := os.MkdirAll(buildDir, 0755); err != nil {
 		log.Fatal(err)
+	}
+
+	// Copy static files
+	if err := copyStaticFiles(); err != nil {
+		log.Printf("Warning: Failed to copy static files: %v", err)
 	}
 
 	// Read all markdown files
@@ -62,6 +89,35 @@ func main() {
 	}
 }
 
+func processProfanityContent(content string) string {
+	// Find all instances of ||text1||text2|| pattern
+	parts := strings.Split(content, "||")
+	var result strings.Builder
+
+	for i := 0; i < len(parts); i++ {
+		if i == 0 {
+			result.WriteString(parts[i])
+			continue
+		}
+
+		// Every third part is the end of a profanity block
+		switch i % 3 {
+		case 1: // NSFW content
+			result.WriteString(`<span class="nsfw">`)
+			result.WriteString(parts[i])
+			result.WriteString(`</span>`)
+		case 2: // SFW content
+			result.WriteString(`<span class="sfw">`)
+			result.WriteString(parts[i])
+			result.WriteString(`</span>`)
+		case 0: // Regular content
+			result.WriteString(parts[i])
+		}
+	}
+
+	return result.String()
+}
+
 func processPost(filename string) (Post, error) {
 	content, err := ioutil.ReadFile(filepath.Join(postsDir, filename))
 	if err != nil {
@@ -82,8 +138,8 @@ func processPost(filename string) (Post, error) {
 		return Post{}, err
 	}
 
-	// Set content
-	post.Content = string(bytes.TrimSpace(parts[2]))
+	// Process content including profanity handling
+	post.Content = processProfanityContent(string(bytes.TrimSpace(parts[2])))
 
 	// Set permalink from filename
 	post.Permalink = strings.TrimSuffix(filename, ".md")
@@ -100,8 +156,10 @@ func generateHTML(post Post) error {
     <meta charset="UTF-8">
     <title>{{.Frontmatter.title}}</title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="/profanity.js"></script>
 </head>
 <body>
+    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
     <div class="container">
         <h1>{{.Frontmatter.title}}</h1>
         {{if .Frontmatter.date}}<p class="date">{{.Frontmatter.date}}</p>{{end}}
@@ -138,8 +196,10 @@ func generateIndex(posts []Post) error {
     <meta charset="UTF-8">
     <title>Blog</title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="/profanity.js"></script>
 </head>
 <body>
+    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
     <div class="container">
         <h1>Blog Posts</h1>
         <ul>

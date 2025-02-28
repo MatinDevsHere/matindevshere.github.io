@@ -11,3 +11,5 @@ category: "JS"
 This is a sample md file.
 
 Oh no, I'm not a good writer.
+
+Holy ||shit||crap||!

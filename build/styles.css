@@ -8,8 +8,10 @@ body {
 }
 
 .container {
+    max-width: 800px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 h1 {
@@ -20,11 +22,10 @@ h1 {
 .date {
     color: #666;
     font-style: italic;
-    margin-bottom: 2rem;
 }
 
 .content {
-    margin: 2rem 0;
+    line-height: 1.6;
 }
 
 a {
@@ -45,4 +46,33 @@ li {
     margin: 1rem 0;
     padding: 0.5rem 0;
     border-bottom: 1px solid #eee;
+}
+
+/* Profanity toggle button */
+#profanityToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#profanityToggle:hover {
+    background-color: #e0e0e0;
+}
+
+/* NSFW/SFW content */
+.nsfw,
+.sfw {
+    display: inline;
+    color: inherit;
+}
+
+/* Initially hide NSFW content */
+.nsfw {
+    display: none;
 }
