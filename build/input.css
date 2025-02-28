@@ -20,12 +20,12 @@
 }
 
 @utility content {
-  body {
-    background-color: black !important;
-  }
-
   & * {
     color: white;
+  }
+
+  body {
+    background-color: black !important;
   }
 
   & h1 {
