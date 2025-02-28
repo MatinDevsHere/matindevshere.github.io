@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="profanity.js"></script>
+</head>
+
+<body>
+    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
+    <div class="container">
+        <h1>Blog Posts</h1>
+        <ul>
+            {{range .}}
+            <li>
+                <a href="{{.Permalink}}">{{.Frontmatter.title}}</a>
+                {{if .Frontmatter.description}}<p class="description">{{.Frontmatter.description}}</p>{{end}}
+                {{if .Frontmatter.date}}<span class="date">{{.Frontmatter.date}}</span>{{end}}
+                {{if and .Frontmatter.lastmod (ne .Frontmatter.lastmod .Frontmatter.date)}}
+                <span class="lastmod">(Last modified: {{.Frontmatter.lastmod}})</span>
+                {{end}}
+            </li>
+            {{end}}
+        </ul>
+    </div>
+</body>
+
+</html>

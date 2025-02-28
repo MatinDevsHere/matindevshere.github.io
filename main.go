@@ -145,80 +145,33 @@ func processPost(filename string) (Post, error) {
 	// Process content including profanity handling
 	post.Content = processProfanityContent(string(bytes.TrimSpace(parts[2])))
 
-	// Set permalink from filename
+	// Set permalink from filename without .html
 	post.Permalink = strings.TrimSuffix(filename, ".md")
 
 	return post, nil
 }
 
 func generateHTML(post Post) error {
-	// Create post template
-	tmpl := `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{.Frontmatter.title}}</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="profanity.js"></script>
-</head>
-<body>
-    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
-    <div class="container">
-        <h1>{{.Frontmatter.title}}</h1>
-        {{if .Frontmatter.date}}<p class="date">{{.Frontmatter.date}}</p>{{end}}
-        <div class="content">
-            {{.Content}}
-        </div>
-        <p><a href="index.html">Back to Home</a></p>
-    </div>
-</body>
-</html>`
-
-	t, err := template.New("post").Parse(tmpl)
+	// Load the template file
+	tmpl, err := template.ParseFiles("templates/post.html")
 	if err != nil {
 		return err
 	}
 
 	// Create output file
-	outPath := filepath.Join(buildDir, post.Permalink+".html")
+	outPath := filepath.Join(buildDir, post.Permalink)
 	f, err := os.Create(outPath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	return t.Execute(f, post)
+	return tmpl.Execute(f, post)
 }
 
 func generateIndex(posts []Post) error {
-	// Create index template
-	tmpl := `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Blog</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="profanity.js"></script>
-</head>
-<body>
-    <button id="profanityToggle" onclick="toggleProfanity()">Enable Adult Content</button>
-    <div class="container">
-        <h1>Blog Posts</h1>
-        <ul>
-            {{range .}}
-            <li>
-                <a href="{{.Permalink}}.html">{{.Frontmatter.title}}</a>
-                {{if .Frontmatter.date}} - {{.Frontmatter.date}}{{end}}
-            </li>
-            {{end}}
-        </ul>
-    </div>
-</body>
-</html>`
-
-	t, err := template.New("index").Parse(tmpl)
+	// Load the template file
+	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		return err
 	}
@@ -230,5 +183,5 @@ func generateIndex(posts []Post) error {
 	}
 	defer f.Close()
 
-	return t.Execute(f, posts)
+	return tmpl.Execute(f, posts)
 }
