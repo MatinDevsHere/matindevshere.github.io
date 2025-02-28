@@ -18,6 +18,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Node.js dependencies
+        run: pnpm install
+
+      - name: Build Tailwind CSS
+        run: pnpm build:css
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
